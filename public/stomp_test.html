@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+<script src="stomp.js"></script>
+<script type="text/javascript">
+//    var ws = new SockJS("http://127.0.0.1:15674/stomp");
+//    var client = Stomp.over(ws);
+
+    var ws = new WebSocket('ws://127.0.0.1:15674/ws');
+    var client = Stomp.over(ws);
+
+    client.heartbeat.outgoing = 0;
+    client.heartbeat.incoming = 0;
+
+    var onDebug = function(m) {
+        console.log("DEBUG", m);
+    };
+
+    var onConnect = function() {
+        client.subscribe("/exchange/my_app/test", function(d) {
+            console.log(JSON.parse(d.body));
+        });
+    };
+
+    var onError = function(e) {
+        console.log("ERROR", e);
+    };
+
+    client.debug = onDebug;
+    client.connect("guest", "guest", onConnect, onError, "/");
+</script>
+
+</body>
+</html>
