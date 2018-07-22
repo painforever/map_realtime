@@ -1,0 +1,3 @@
+module Constants
+  GOOGLE_MAP_API_KEY="AIzaSyAMC99sFjFAnQoX3q_lM3yF9hxrNOar5wE"
+end
