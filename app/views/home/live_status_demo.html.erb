@@ -1,0 +1,6 @@
+<script>
+    var source = new EventSource('/home/live_status');
+    source.addEventListener('time', function(event) {
+        console.log(event.data);
+    });
+</script>

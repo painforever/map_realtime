@@ -11,6 +11,10 @@ io.on('connection', function (socket) {
         console.log(transaction);
         io.emit('changeColor', { country_code: transaction.country_code });
     });
+
+    socket.on('fromMobile', function(data){
+        console.log(data);
+    });
 });
 
 server.listen(8998);

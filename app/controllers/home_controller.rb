@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  include ActionController::Live
+
   def index
 
   end
@@ -9,6 +11,21 @@ class HomeController < ApplicationController
     respond_to do |format|
       format.json {render json: @code, status: :ok}
       format.js
+    end
+  end
+
+  def live_status
+    response.headers['Content-Type'] = 'text/event-stream'
+    sse = SSE.new(response.stream, event: 'time')
+    sse.write({ time: Time.now })
+    begin
+      loop do
+        sse.write({ time: Time.now })
+        sleep 1
+      end
+    rescue ClientDisconnected
+    ensure
+      sse.close
     end
   end
 
